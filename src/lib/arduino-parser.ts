@@ -28,12 +28,12 @@ export function parseLinha(linha: string, t = Date.now()): Evento {
   if (m) {
     return {
       tipo: "leitura",
-      leitura: { estado: m[1] as Estado, coleta: cm(m[2]), caixa: cm(m[3]), t },
+      leitura: { estado: m[1] as Estado, coleta: cm(m[2] ?? ""), caixa: cm(m[3] ?? ""), t },
     };
   }
   if (l.includes(">>> BOMBA LIGADA")) return { tipo: "ligou" };
   const d = l.match(/>>> BOMBA DESLIGADA - motivo:\s*(.*)/);
-  if (d) return { tipo: "desligou", motivo: d[1].trim() };
+  if (d) return { tipo: "desligou", motivo: (d[1] ?? "").trim() };
   return { tipo: "texto", texto: l };
 }
 
