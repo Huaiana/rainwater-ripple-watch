@@ -21,9 +21,9 @@ describe("parseLinha", () => {
 
 import { volumeMl } from "@/lib/arduino-parser";
 describe("volumeMl", () => {
-  it("reservatório de 200 ml", () => {
-    expect(volumeMl(75)).toBe(150);
-    expect(volumeMl(100)).toBe(200);
+  it("reservatório de 150 ml", () => {
+    expect(volumeMl(75)).toBe(113);
+    expect(volumeMl(100)).toBe(150);
     expect(volumeMl(null)).toBeNull();
   });
 });
