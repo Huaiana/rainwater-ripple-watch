@@ -18,3 +18,12 @@ describe("parseLinha", () => {
     expect(nivelPercent(25, 5, 25)).toBe(0);
   });
 });
+
+import { volumeMl } from "@/lib/arduino-parser";
+describe("volumeMl", () => {
+  it("reservatório de 200 ml", () => {
+    expect(volumeMl(75)).toBe(150);
+    expect(volumeMl(100)).toBe(200);
+    expect(volumeMl(null)).toBeNull();
+  });
+});
