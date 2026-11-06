@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { parseLinha, nivelPercent, type Leitura } from "@/lib/arduino-parser";
+import { parseLinha, nivelPercent, volumeMl, CAPACIDADE_ML, type Leitura } from "@/lib/arduino-parser";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,9 +16,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Distâncias de referência (cm) para converter em %: sensor -> água
-const T1 = { cheio: 8, vazio: 30, ligar: 8, desligar: 15 };
-const T2 = { cheio: 5, vazio: 25, cheioLim: 5, libera: 8 };
+// Limites do código Arduino (cm)
+const T1L = { ligar: 8, desligar: 15 };
+const T2L = { cheio: 5, libera: 8 };
+type Calib = { t1Cheio: number; t1Vazio: number; t2Cheio: number; t2Vazio: number };
+const CALIB_PADRAO: Calib = { t1Cheio: 8, t1Vazio: 15, t2Cheio: 5, t2Vazio: 8 };
+const CALIB_KEY = "calibracao-tanques";
 
 type SerialPortLike = {
   open: (o: { baudRate: number }) => Promise<void>;
@@ -37,7 +40,20 @@ function Index() {
   const portRef = useRef<SerialPortLike | null>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<string> | null>(null);
 
-  useEffect(() => setSuportado("serial" in navigator), []);
+  const [calib, setCalib] = useState<Calib>(CALIB_PADRAO);
+  useEffect(() => {
+    setSuportado("serial" in navigator);
+    try {
+      const c = localStorage.getItem(CALIB_KEY);
+      if (c) setCalib({ ...CALIB_PADRAO, ...JSON.parse(c) });
+    } catch { /* ignore */ }
+  }, []);
+  const salvarCalib = (c: Calib) => {
+    setCalib(c);
+    localStorage.setItem(CALIB_KEY, JSON.stringify(c));
+  };
+  const T1 = { cheio: calib.t1Cheio, vazio: calib.t1Vazio };
+  const T2 = { cheio: calib.t2Cheio, vazio: calib.t2Vazio };
 
   const addLog = (s: string) =>
     setLog((l) => [`${new Date().toLocaleTimeString()}  ${s}`, ...l].slice(0, 200));
@@ -136,7 +152,7 @@ function Index() {
 
         <section className="mt-8 grid gap-6 md:grid-cols-[1fr_auto_1fr]">
           <Tanque nome="Reservatório de coleta" sub="Tanque 1 · chuva" dist={atual?.coleta} pct={p1}
-            marcas={[{ label: `liga ${T1.ligar}cm`, pct: nivelPercent(T1.ligar, T1.cheio, T1.vazio)! }, { label: `para ${T1.desligar}cm`, pct: nivelPercent(T1.desligar, T1.cheio, T1.vazio)! }]} />
+            marcas={[{ label: `liga ${T1L.ligar}cm`, pct: nivelPercent(T1L.ligar, T1.cheio, T1.vazio)! }, { label: `para ${T1L.desligar}cm`, pct: nivelPercent(T1L.desligar, T1.cheio, T1.vazio)! }]} />
           <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-card p-6">
             <div className={`flex h-24 w-24 items-center justify-center rounded-full border-4 ${bombeando ? "border-primary" : "border-border"}`}>
               <svg viewBox="0 0 24 24" className={`h-12 w-12 ${bombeando ? "animate-spin text-primary" : "text-muted-foreground"}`} style={{ animationDuration: "1.2s" }} fill="none" stroke="currentColor" strokeWidth="2">
@@ -148,7 +164,7 @@ function Index() {
             <p className="font-mono text-xs text-muted-foreground">{ciclos} ciclo(s) nesta sessão</p>
           </div>
           <Tanque nome="Caixa-d'água" sub="Tanque 2" dist={atual?.caixa} pct={p2}
-            marcas={[{ label: `cheia ${T2.cheioLim}cm`, pct: 100 }, { label: `libera ${T2.libera}cm`, pct: nivelPercent(T2.libera, T2.cheio, T2.vazio)! }]} />
+            marcas={[{ label: `cheia ${T2L.cheio}cm`, pct: nivelPercent(T2L.cheio, T2.cheio, T2.vazio)! }, { label: `libera ${T2L.libera}cm`, pct: nivelPercent(T2L.libera, T2.cheio, T2.vazio)! }]} />
         </section>
 
         <section className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -160,7 +176,8 @@ function Index() {
               <span className="text-chart-1">■ Coleta</span><span className="text-chart-2">■ Caixa</span>
             </div>
           </div>
-          <div className="rounded-lg border border-border bg-card p-5">
+          <Calibracao calib={calib} onChange={salvarCalib} />
+          <div className="rounded-lg border border-border bg-card p-5 lg:col-span-2">
             <h2 className="font-semibold">Eventos</h2>
             <div className="mt-3 h-64 overflow-auto rounded bg-muted p-3 font-mono text-xs leading-relaxed">
               {log.length === 0 ? <p className="text-muted-foreground">Conecte o Arduino para ver as mensagens…</p> : log.map((l, i) => <div key={i}>{l}</div>)}
@@ -178,8 +195,11 @@ function Tanque({ nome, sub, dist, pct, marcas }: { nome: string; sub: string; d
     <div className="rounded-lg border border-border bg-card p-5">
       <div className="flex items-baseline justify-between">
         <div><h2 className="font-semibold">{nome}</h2><p className="text-xs text-muted-foreground">{sub}</p></div>
-        <p className="font-mono text-2xl font-semibold">{erro ? "ERRO" : dist == null ? "—" : `${dist.toFixed(1)} cm`}</p>
+        <p className="font-mono text-sm text-muted-foreground">{erro ? "ERRO" : dist == null ? "—" : `${dist.toFixed(1)} cm`}</p>
       </div>
+      <p className="mt-2 font-mono text-2xl font-semibold">
+        {volumeMl(erro ? null : pct) ?? "—"} ml <span className="text-base text-muted-foreground">/ {CAPACIDADE_ML} ml</span>
+      </p>
       <div className="relative mt-4 h-56 overflow-hidden rounded-md border-2 border-border bg-muted">
         <div className="absolute inset-x-0 bottom-0 bg-primary/70 transition-all duration-500" style={{ height: `${pct ?? 0}%` }} />
         {marcas.map((m) => (
@@ -207,5 +227,32 @@ function Grafico({ hist }: { hist: Leitura[] }) {
       <polyline points={linha("coleta")} fill="none" className="stroke-chart-1" strokeWidth="2" />
       <polyline points={linha("caixa")} fill="none" className="stroke-chart-2" strokeWidth="2" />
     </svg>
+  );
+}
+
+function Calibracao({ calib, onChange }: { calib: Calib; onChange: (c: Calib) => void }) {
+  const campo = (k: keyof Calib, label: string) => (
+    <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+      {label}
+      <input type="number" step="0.5" min="0" value={calib[k]}
+        onChange={(e) => { const v = parseFloat(e.target.value); if (Number.isFinite(v)) onChange({ ...calib, [k]: v }); }}
+        className="rounded-md border border-input bg-background px-3 py-2 font-mono text-sm text-foreground" />
+    </label>
+  );
+  const invalido = calib.t1Vazio <= calib.t1Cheio || calib.t2Vazio <= calib.t2Cheio;
+  return (
+    <div className="rounded-lg border border-border bg-card p-5">
+      <div className="flex items-baseline justify-between">
+        <h2 className="font-semibold">Calibração</h2>
+        <button onClick={() => onChange(CALIB_PADRAO)} className="text-xs font-semibold text-primary hover:underline">Restaurar padrão</button>
+      </div>
+      <p className="text-xs text-muted-foreground">Distância do sensor até a água (cm), medida na bancada. Capacidade: {CAPACIDADE_ML} ml cada.</p>
+      <p className="mt-4 text-sm font-semibold">Reservatório de coleta</p>
+      <div className="mt-2 grid grid-cols-2 gap-3">{campo("t1Cheio", "Cheio (cm)")}{campo("t1Vazio", "Vazio (cm)")}</div>
+      <p className="mt-4 text-sm font-semibold">Caixa-d'água</p>
+      <div className="mt-2 grid grid-cols-2 gap-3">{campo("t2Cheio", "Cheio (cm)")}{campo("t2Vazio", "Vazio (cm)")}</div>
+      {invalido && <p className="mt-3 text-xs text-destructive">A distância "vazio" deve ser maior que "cheio".</p>}
+      <p className="mt-3 text-xs text-muted-foreground">Ajustes ficam salvos neste navegador.</p>
+    </div>
   );
 }

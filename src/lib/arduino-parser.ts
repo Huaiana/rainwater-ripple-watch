@@ -43,3 +43,10 @@ export function nivelPercent(dist: number | null, cheio: number, vazio: number):
   const p = ((vazio - dist) / (vazio - cheio)) * 100;
   return Math.max(0, Math.min(100, p));
 }
+
+export const CAPACIDADE_ML = 150;
+
+/** Volume estimado em ml a partir da porcentagem de nível. */
+export function volumeMl(pct: number | null, capacidade = CAPACIDADE_ML): number | null {
+  return pct == null ? null : Math.round((pct / 100) * capacidade);
+}
