@@ -137,7 +137,7 @@ function Index() {
             </div>
             <div className="flex flex-col items-end gap-3">
               <span className={`flex items-center gap-2 rounded-sm border border-border bg-oil px-3 py-1 font-mono text-xs uppercase tracking-wider text-oil-foreground inset-stamp ${conectado ? "text-primary" : ""}`}>
-                <span className={`lamp h-2.5 w-2.5 rounded-full ${conectado ? "animate-pulse bg-primary text-primary" : "bg-muted-foreground/50 text-muted-foreground/40"}`} />
+                <span className={`lamp h-2.5 w-2.5 rounded-full ${conectado ? "animate-pulse bg-primary text-primary" : "bg-muted-foreground text-muted-foreground"}`} />
                 {conectado ? "USB conectado" : "Desconectado"}
               </span>
               {conectado ? (
