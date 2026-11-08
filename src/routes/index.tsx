@@ -181,8 +181,9 @@ function Index() {
               Últimas {hist.length} leituras · menor distância = mais água
             </p>
             <Grafico hist={hist} />
-            <div className="mt-3 flex gap-4 font-mono text-xs">
-              <span className="text-chart-1">■ Coleta</span><span className="text-chart-2">■ Caixa</span>
+            <div className="mt-3 flex gap-2 font-mono text-xs">
+              <span className="rounded-sm border border-border bg-oil px-2 py-0.5 text-chart-1">■ Coleta</span>
+              <span className="rounded-sm border border-border bg-oil px-2 py-0.5 text-chart-2">■ Caixa</span>
             </div>
           </div>
 
@@ -266,7 +267,7 @@ function Bomba({ bombeando, estado, ciclos }: { bombeando: boolean; estado: stri
           <span key={i} className="w-7 rounded-sm border border-oil-foreground/25 bg-oil-foreground/10 py-0.5 text-center font-mono text-lg text-oil-foreground inset-stamp">{d}</span>
         ))}
       </div>
-      <p className="font-mono text-[10px] uppercase tracking-wider text-oil-foreground/55">ciclos nesta sessão</p>
+      <p className="font-mono text-[10px] uppercase tracking-wider text-oil-foreground/85">ciclos nesta sessão</p>
     </div>
   );
 }
@@ -279,8 +280,8 @@ function Grafico({ hist }: { hist: Leitura[] }) {
     <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 h-48 w-full rounded-sm border border-border bg-oil gauge-face">
       {[10, 20, 30].map((v) => (
         <g key={v}>
-          <line x1="0" x2={W} y1={(v / max) * H} y2={(v / max) * H} className="stroke-oil-foreground/20" strokeDasharray="4 4" />
-          <text x="4" y={(v / max) * H - 2} className="fill-oil-foreground/60" fontSize="10" fontFamily="IBM Plex Mono, monospace">{v}cm</text>
+          <line x1="0" x2={W} y1={(v / max) * H} y2={(v / max) * H} className="stroke-oil-foreground/30" strokeDasharray="4 4" />
+          <text x="4" y={(v / max) * H - 2} className="fill-oil-foreground/90" fontSize="11" fontFamily="IBM Plex Mono, monospace">{v}cm</text>
         </g>
       ))}
       <polyline points={linha("coleta")} fill="none" className="stroke-chart-1" strokeWidth="2" />
