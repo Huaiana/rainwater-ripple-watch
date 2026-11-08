@@ -280,7 +280,7 @@ function Grafico({ hist }: { hist: Leitura[] }) {
     <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 h-48 w-full rounded-sm border border-border bg-oil gauge-face">
       {[10, 20, 30].map((v) => (
         <g key={v}>
-          <line x1="0" x2={W} y1={(v / max) * H} y2={(v / max) * H} className="stroke-oil-foreground/30" strokeDasharray="4 4" />
+          <line x1="0" x2={W} y1={(v / max) * H} y2={(v / max) * H} className="stroke-oil-foreground/40" strokeDasharray="4 4" />
           <text x="4" y={(v / max) * H - 2} className="fill-oil-foreground/90" fontSize="11" fontFamily="IBM Plex Mono, monospace">{v}cm</text>
         </g>
       ))}
