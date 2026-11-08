@@ -188,7 +188,7 @@ function Index() {
 
           <Calibracao calib={calib} onChange={salvarCalib} />
 
-          <div className="rounded-sm border-2 border-dashed border-border bg-secondary/60 p-5">
+          <div className="rounded-sm border-2 border-dashed border-border bg-secondary/60 p-5 lg:col-span-2">
             <h2 className="stencil text-base text-foreground">Registro de eventos</h2>
             <p className="font-mono text-xs text-muted-foreground">Folha da bancada — mais recente em cima</p>
             <div className="mt-3 h-64 overflow-auto rounded-sm border border-border bg-background/70 p-3 font-mono text-xs leading-relaxed text-foreground/90">
