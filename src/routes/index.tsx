@@ -122,7 +122,7 @@ function Index() {
       <div aria-hidden className="hazard relative h-2 w-full border-b-2 border-border" />
 
       <div className="relative mx-auto max-w-6xl px-5 py-8">
-        <header className="plate rivets relative rounded-sm border-2 border-border p-5 bezel">
+        <header className="plate rivets grunge relative rounded-sm border-2 border-border p-5 bezel">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="stencil text-[11px] text-muted-foreground stamp">
@@ -175,7 +175,7 @@ function Index() {
         </section>
 
         <section className="mt-6 grid gap-6 lg:grid-cols-2">
-          <div className="plate rivets rounded-sm border-2 border-border p-5 bezel">
+          <div className="plate rivets grunge rounded-sm border-2 border-border p-5 bezel">
             <h2 className="stencil text-base text-foreground stamp">Distâncias</h2>
             <p className="font-mono text-xs text-muted-foreground">
               Últimas {hist.length} leituras · menor distância = mais água
@@ -213,7 +213,7 @@ function Index() {
 function Tanque({ nome, sub, dist, pct, marcas }: { nome: string; sub: string; dist: number | null | undefined; pct: number | null; marcas: { label: string; pct: number }[] }) {
   const erro = dist === null;
   return (
-    <div className="plate rivets rounded-sm border-2 border-border p-5 bezel">
+    <div className="plate rivets grunge rounded-sm border-2 border-border p-5 bezel">
       <div className="flex items-baseline justify-between">
         <div>
           <h2 className="stencil text-base text-foreground stamp">{nome}</h2>
@@ -229,7 +229,7 @@ function Tanque({ nome, sub, dist, pct, marcas }: { nome: string; sub: string; d
 
       {/* visor de nível: tubo de vidro com conexões de latão */}
       <div className="mt-4 h-3 rounded-sm border-y-2 border-border bg-brass/70" />
-      <div className="relative h-56 overflow-hidden border-x-2 border-border bg-muted inset-stamp">
+      <div className="graduacao relative h-56 overflow-hidden border-x-2 border-border bg-muted inset-stamp">
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary via-primary to-accent transition-all duration-500" style={{ height: `${pct ?? 0}%` }}>
           <div className="absolute inset-x-0 top-0 h-1 bg-accent-foreground/25" />
         </div>
@@ -300,7 +300,7 @@ function Calibracao({ calib, onChange }: { calib: Calib; onChange: (c: Calib) =>
   );
   const invalido = calib.t1Vazio <= calib.t1Cheio || calib.t2Vazio <= calib.t2Cheio;
   return (
-    <div className="plate rivets rounded-sm border-2 border-border p-5 bezel">
+    <div className="plate rivets grunge rounded-sm border-2 border-border p-5 bezel">
       <div className="flex items-baseline justify-between">
         <h2 className="stencil text-base text-foreground stamp">Calibração</h2>
         <button onClick={() => onChange(CALIB_PADRAO)} className="stencil rounded-sm border border-border bg-secondary px-2 py-1 text-[11px] text-secondary-foreground transition hover:bg-secondary/70 active:translate-y-px">
