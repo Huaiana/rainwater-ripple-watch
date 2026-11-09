@@ -7,8 +7,8 @@
 /*
  * Design system definition — visual "oficina" (rustic workshop).
  *
- * Paleta de bancada: papel kraft esverdeado, aço escovado, verde
- * esmalte de máquina, latão, óleo queimado e faixa de perigo.
+ * Paleta de bancada: papel kraft, aço escovado, tinta gusa, latão,
+ * óleo queimado e faixa de perigo. Todos os valores em oklch.
  *
  * The @theme inline block maps CSS custom properties to Tailwind utility
  * classes (e.g. --color-primary -> bg-primary, text-primary).
@@ -70,90 +70,90 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.895 0.05 142);
-  --foreground: oklch(0.26 0.032 145);
-  --card: oklch(0.945 0.038 138);
-  --card-foreground: oklch(0.23 0.03 145);
-  --popover: oklch(0.945 0.038 138);
-  --popover-foreground: oklch(0.23 0.03 145);
-  --primary: oklch(0.44 0.12 152);
-  --primary-foreground: oklch(0.965 0.02 110);
-  --secondary: oklch(0.845 0.045 140);
-  --secondary-foreground: oklch(0.29 0.03 145);
-  --muted: oklch(0.85 0.048 140);
-  --muted-foreground: oklch(0.4 0.032 140);
-  --accent: oklch(0.68 0.115 150);
-  --accent-foreground: oklch(0.22 0.03 145);
+  --background: oklch(0.895 0.035 78);
+  --foreground: oklch(0.27 0.035 58);
+  --card: oklch(0.945 0.022 76);
+  --card-foreground: oklch(0.24 0.035 58);
+  --popover: oklch(0.945 0.022 76);
+  --popover-foreground: oklch(0.24 0.035 58);
+  --primary: oklch(0.545 0.155 45);
+  --primary-foreground: oklch(0.965 0.02 78);
+  --secondary: oklch(0.84 0.022 72);
+  --secondary-foreground: oklch(0.3 0.035 58);
+  --muted: oklch(0.845 0.03 74);
+  --muted-foreground: oklch(0.41 0.035 60);
+  --accent: oklch(0.72 0.13 82);
+  --accent-foreground: oklch(0.25 0.04 58);
   --destructive: oklch(0.52 0.19 25);
   --destructive-foreground: oklch(0.965 0.02 78);
-  --border: oklch(0.56 0.045 148);
-  --input: oklch(0.56 0.045 148);
-  --ring: oklch(0.44 0.12 152);
-  --chart-1: oklch(0.78 0.13 158);
-  --chart-2: oklch(0.74 0.115 86);
-  --chart-3: oklch(0.4 0.05 140);
-  --chart-4: oklch(0.58 0.13 150);
-  --chart-5: oklch(0.72 0.11 120);
-  --sidebar: oklch(0.925 0.042 138);
-  --sidebar-foreground: oklch(0.23 0.03 145);
-  --sidebar-primary: oklch(0.44 0.12 152);
-  --sidebar-primary-foreground: oklch(0.965 0.02 110);
-  --sidebar-accent: oklch(0.845 0.02 108);
-  --sidebar-accent-foreground: oklch(0.29 0.03 145);
-  --sidebar-border: oklch(0.58 0.028 140);
-  --sidebar-ring: oklch(0.44 0.12 152);
+  --border: oklch(0.6 0.032 62);
+  --input: oklch(0.6 0.032 62);
+  --ring: oklch(0.545 0.155 45);
+  --chart-1: oklch(0.72 0.15 82);
+  --chart-2: oklch(0.72 0.12 190);
+  --chart-3: oklch(0.4 0.05 60);
+  --chart-4: oklch(0.58 0.16 45);
+  --chart-5: oklch(0.7 0.12 105);
+  --sidebar: oklch(0.925 0.028 76);
+  --sidebar-foreground: oklch(0.24 0.035 58);
+  --sidebar-primary: oklch(0.545 0.155 45);
+  --sidebar-primary-foreground: oklch(0.965 0.02 78);
+  --sidebar-accent: oklch(0.84 0.022 72);
+  --sidebar-accent-foreground: oklch(0.3 0.035 58);
+  --sidebar-border: oklch(0.6 0.032 62);
+  --sidebar-ring: oklch(0.545 0.155 45);
 
   /* Materiais da oficina */
-  --oil: oklch(0.225 0.022 150);
-  --oil-foreground: oklch(0.93 0.02 110);
-  --steel: oklch(0.72 0.032 145);
+  --oil: oklch(0.235 0.022 55);
+  --oil-foreground: oklch(0.93 0.022 78);
+  --steel: oklch(0.72 0.016 74);
   --wood: oklch(0.44 0.075 55);
   --brass: oklch(0.68 0.115 86);
   --hazard: oklch(0.8 0.16 95);
-  --hazard-ink: oklch(0.19 0.02 150);
+  --hazard-ink: oklch(0.2 0.02 55);
 }
 
 .dark {
-  --background: oklch(0.175 0.038 152);
-  --foreground: oklch(0.92 0.02 110);
-  --card: oklch(0.245 0.04 152);
-  --card-foreground: oklch(0.92 0.02 110);
-  --popover: oklch(0.245 0.04 152);
-  --popover-foreground: oklch(0.92 0.02 110);
-  --primary: oklch(0.72 0.13 152);
-  --primary-foreground: oklch(0.16 0.02 150);
-  --secondary: oklch(0.3 0.04 150);
-  --secondary-foreground: oklch(0.9 0.02 110);
-  --muted: oklch(0.3 0.04 150);
-  --muted-foreground: oklch(0.72 0.03 120);
-  --accent: oklch(0.76 0.11 150);
-  --accent-foreground: oklch(0.18 0.02 150);
+  --background: oklch(0.185 0.02 55);
+  --foreground: oklch(0.92 0.022 78);
+  --card: oklch(0.255 0.022 58);
+  --card-foreground: oklch(0.92 0.022 78);
+  --popover: oklch(0.255 0.022 58);
+  --popover-foreground: oklch(0.92 0.022 78);
+  --primary: oklch(0.67 0.16 48);
+  --primary-foreground: oklch(0.16 0.02 55);
+  --secondary: oklch(0.31 0.022 60);
+  --secondary-foreground: oklch(0.9 0.02 78);
+  --muted: oklch(0.31 0.022 60);
+  --muted-foreground: oklch(0.7 0.03 74);
+  --accent: oklch(0.74 0.13 84);
+  --accent-foreground: oklch(0.18 0.02 55);
   --destructive: oklch(0.68 0.19 25);
   --destructive-foreground: oklch(0.16 0.02 55);
-  --border: oklch(0.45 0.028 150);
-  --input: oklch(0.45 0.028 150);
-  --ring: oklch(0.72 0.13 152);
-  --chart-1: oklch(0.8 0.13 155);
-  --chart-2: oklch(0.76 0.11 88);
-  --chart-3: oklch(0.72 0.05 120);
-  --chart-4: oklch(0.7 0.13 150);
-  --chart-5: oklch(0.76 0.11 125);
-  --sidebar: oklch(0.25 0.024 152);
-  --sidebar-foreground: oklch(0.92 0.02 110);
-  --sidebar-primary: oklch(0.72 0.13 152);
-  --sidebar-primary-foreground: oklch(0.16 0.02 150);
-  --sidebar-accent: oklch(0.3 0.024 150);
-  --sidebar-accent-foreground: oklch(0.9 0.02 110);
-  --sidebar-border: oklch(0.45 0.028 150);
-  --sidebar-ring: oklch(0.72 0.13 152);
+  --border: oklch(0.46 0.028 60);
+  --input: oklch(0.46 0.028 60);
+  --ring: oklch(0.67 0.16 48);
+  --chart-1: oklch(0.78 0.14 86);
+  --chart-2: oklch(0.76 0.12 190);
+  --chart-3: oklch(0.72 0.05 70);
+  --chart-4: oklch(0.68 0.17 46);
+  --chart-5: oklch(0.74 0.12 108);
+  --sidebar: oklch(0.255 0.022 58);
+  --sidebar-foreground: oklch(0.92 0.022 78);
+  --sidebar-primary: oklch(0.67 0.16 48);
+  --sidebar-primary-foreground: oklch(0.16 0.02 55);
+  --sidebar-accent: oklch(0.31 0.022 60);
+  --sidebar-accent-foreground: oklch(0.9 0.02 78);
+  --sidebar-border: oklch(0.46 0.028 60);
+  --sidebar-ring: oklch(0.67 0.16 48);
 
-  --oil: oklch(0.14 0.02 152);
-  --oil-foreground: oklch(0.92 0.02 110);
-  --steel: oklch(0.42 0.014 110);
+  --oil: oklch(0.145 0.018 55);
+  --oil-foreground: oklch(0.92 0.022 78);
+  --steel: oklch(0.42 0.016 70);
   --wood: oklch(0.34 0.06 50);
   --brass: oklch(0.6 0.1 84);
   --hazard: oklch(0.74 0.15 92);
-  --hazard-ink: oklch(0.15 0.02 150);
+  --hazard-ink: oklch(0.16 0.02 55);
 }
 
 @layer base {
